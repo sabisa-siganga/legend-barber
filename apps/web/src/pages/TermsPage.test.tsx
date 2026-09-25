@@ -98,12 +98,16 @@ describe("terms page", () => {
       within(article).getByText(/does not send booking confirmation emails/i),
     ).toBeInTheDocument();
     expect(
-      within(article).getByText(/not reserved until the booking is successfully confirmed/i),
+      within(article).getByText(
+        /not reserved until the booking is successfully confirmed/i,
+      ),
     ).toBeInTheDocument();
     expect(within(article).getByText("10 minutes late")).toBeInTheDocument();
     expect(within(article).getByText("2 hours before")).toBeInTheDocument();
     expect(
-      within(article).getByText(/does not include online cancellation or rescheduling/i),
+      within(article).getByText(
+        /does not include online cancellation or rescheduling/i,
+      ),
     ).toBeInTheDocument();
   });
 
@@ -136,9 +140,7 @@ describe("terms page", () => {
     const user = userEvent.setup();
     renderAt("/");
 
-    await user.click(
-      screen.getByRole("link", { name: "Terms & Conditions" }),
-    );
+    await user.click(screen.getByRole("link", { name: "Terms & Conditions" }));
 
     expect(
       screen.getByRole("heading", { level: 1, name: "Terms & Conditions" }),
@@ -162,7 +164,8 @@ describe("terms page", () => {
     renderAt("/terms");
 
     const text = termsArticle().textContent ?? "";
-    expect(text).not.toMatch(/Legend Barber/i);
+    expect(text).toMatch(/Crown & Blade/i);
+    expect(text).not.toMatch(/legendbarber/i);
     expect(text).not.toMatch(/Sandton/i);
     expect(text).not.toMatch(/Johannesburg/i);
     expect(text).not.toMatch(/\+27 11/);

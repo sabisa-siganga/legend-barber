@@ -4,7 +4,23 @@ import { MemoryRouter, useLocation } from "react-router";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { AppRoutes } from "../App";
 
-const API_ORIGIN = "http://localhost:8000";
+type FetchResult = {
+  ok: boolean;
+  status: number;
+  json: () => Promise<unknown>;
+};
+
+const requestUrl = (input: RequestInfo | URL): string => {
+  if (typeof input === "string") {
+    return input;
+  }
+
+  if (input instanceof URL) {
+    return input.href;
+  }
+
+  return input.url;
+};
 
 const LocationProbe = () => {
   const { pathname } = useLocation();
@@ -21,11 +37,11 @@ const renderAt = (path: string) => {
   );
 };
 
-const jsonResponse = (body: unknown, status = 200) =>
-  new Response(JSON.stringify(body), {
-    status,
-    headers: { "Content-Type": "application/json" },
-  });
+const jsonResponse = (body: unknown, status = 200): FetchResult => ({
+  ok: status >= 200 && status < 300,
+  status,
+  json: async () => body,
+});
 
 type FlatBooking = {
   reference: string;
@@ -67,36 +83,36 @@ const installFetch = ({
     return bookingsPayload(date, []);
   },
 }: {
-  onSession?: () => Response;
-  onLogin?: (init?: RequestInit) => Response | Promise<Response>;
-  onLogout?: () => Response;
-  onBookings?: (url: string) => Response;
+  onSession?: () => FetchResult;
+  onLogin?: (init?: RequestInit) => FetchResult | Promise<FetchResult>;
+  onLogout?: () => FetchResult;
+  onBookings?: (url: string) => FetchResult;
 } = {}) => {
   const fetchMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
-    const url = String(input);
+    const url = requestUrl(input);
 
-    if (url === `${API_ORIGIN}/sanctum/csrf-cookie`) {
+    if (url.includes("/sanctum/csrf-cookie")) {
       document.cookie = "XSRF-TOKEN=test-token";
-      return new Response(null, { status: 204 });
+      return jsonResponse(null, 204);
     }
 
-    if (url === `${API_ORIGIN}/api/admin/login`) {
+    if (url.includes("/api/admin/login")) {
       return onLogin(init);
     }
 
-    if (url === `${API_ORIGIN}/api/admin/logout`) {
+    if (url.includes("/api/admin/logout")) {
       return onLogout();
     }
 
-    if (url === `${API_ORIGIN}/api/admin/session`) {
+    if (url.includes("/api/admin/session")) {
       return onSession();
     }
 
-    if (url.startsWith(`${API_ORIGIN}/api/admin/bookings`)) {
+    if (url.includes("/api/admin/bookings")) {
       return onBookings(url);
     }
 
-    return new Response("not found", { status: 404 });
+    return jsonResponse({ message: "not found" }, 404);
   });
 
   vi.stubGlobal("fetch", fetchMock);
@@ -105,7 +121,13 @@ const installFetch = ({
 };
 
 const calledUrl = (fetchMock: FetchMock, fragment: string) =>
-  fetchMock.mock.calls.find((call) => String(call[0]).includes(fragment));
+  fetchMock.mock.calls.find((call) => (
+    requestUrl(call[0] as RequestInfo | URL).includes(fragment)
+  ));
+
+const setupUser = () => userEvent.setup({
+  advanceTimers: vi.advanceTimersByTime,
+});
 
 describe("admin area", () => {
   beforeEach(() => {
@@ -137,9 +159,9 @@ describe("admin area", () => {
   });
 
   it("navigates to the dashboard after a successful login", async () => {
-    const user = userEvent.setup();
-    let releaseLogin: (response: Response) => void = () => {};
-    const pendingLogin = new Promise<Response>((resolve) => {
+    const user = setupUser();
+    let releaseLogin: (response: FetchResult) => void = () => {};
+    const pendingLogin = new Promise<FetchResult>((resolve) => {
       releaseLogin = resolve;
     });
     const fetchMock = installFetch({
@@ -183,7 +205,7 @@ describe("admin area", () => {
   });
 
   it("shows the returned login error and keeps the entered username", async () => {
-    const user = userEvent.setup();
+    const user = setupUser();
     installFetch({
       onLogin: () =>
         jsonResponse(
@@ -282,7 +304,7 @@ describe("admin area", () => {
   });
 
   it("returns to today's bookings from the Today action", async () => {
-    const user = userEvent.setup();
+    const user = setupUser();
     installFetch({
       onBookings: (url) => {
         const date = new URL(url).searchParams.get("date") ?? "";
@@ -343,7 +365,7 @@ describe("admin area", () => {
   });
 
   it("logs out through the admin endpoint and returns to login", async () => {
-    const user = userEvent.setup();
+    const user = setupUser();
     const fetchMock = installFetch({
       onBookings: (url) =>
         bookingsPayload(new URL(url).searchParams.get("date") ?? "", [
@@ -367,7 +389,7 @@ describe("admin area", () => {
   });
 
   it("still returns to login when logout finds an expired session", async () => {
-    const user = userEvent.setup();
+    const user = setupUser();
     installFetch({
       onBookings: (url) =>
         bookingsPayload(new URL(url).searchParams.get("date") ?? "", [
@@ -442,7 +464,7 @@ describe("admin area", () => {
   });
 
   it("keeps loaded bookings visible when a later date request fails", async () => {
-    const user = userEvent.setup();
+    const user = setupUser();
     let failNext = false;
     installFetch({
       onBookings: (url) => {

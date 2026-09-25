@@ -1,4 +1,4 @@
-import { getApiBaseUrl } from "./health";
+import { getApiBaseUrl } from "./client";
 import type { AdminBooking, AdminBookingsResult, AdminLoginResult } from "../types/admin";
 
 const LOGIN_FAILURE_MESSAGE = "We could not sign you in. Please try again.";
