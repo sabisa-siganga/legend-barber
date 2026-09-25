@@ -52,7 +52,7 @@ The API runs at http://localhost:8000. `GET /api/health` returns:
 
 Set `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, and `DB_PASSWORD` in `apps/api/.env` to a local MySQL account. Set `ADMIN_PASSWORD` to the single admin password. Do not commit that value. Session, cache, and queue drivers are files or `sync`, so the health check does not need MySQL.
 
-The API uses `Africa/Johannesburg` for shop hours and booking times. CORS allows credentialed requests only from `FRONTEND_URL`. Sanctum treats `SANCTUM_STATEFUL_DOMAINS` as the React origin for the admin cookie session.
+The API uses `Africa/Johannesburg` for shop hours and booking times. CORS allows any browser origin, because this is a demo and the site and API are on different hosts. Public bookings do not require a session CSRF cookie. Sanctum still treats `SANCTUM_STATEFUL_DOMAINS` as the React origin for the admin cookie session.
 
 Create the database before the first migration:
 

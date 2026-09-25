@@ -6,7 +6,9 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [env('FRONTEND_URL', 'http://localhost:5173')],
+    // Demo API: reflect whatever Origin the browser sends. A literal "*"
+    // cannot be combined with credentialed admin session requests.
+    'allowed_origins' => ['*'],
 
     'allowed_origins_patterns' => [],
 

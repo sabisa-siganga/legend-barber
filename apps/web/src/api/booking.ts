@@ -1,9 +1,4 @@
-import {
-  ensureCsrfCookie,
-  getApiBaseUrl,
-  mutationHeaders,
-  resetCsrfCookie,
-} from "./client";
+import { getApiBaseUrl } from "./client";
 import type {
   AvailabilityResult,
   BookingConfirmation,
@@ -139,34 +134,15 @@ const networkBookingFailure = (): BookingResult => ({
   fieldErrors: {},
 });
 
-const primeCsrfCookie = async (): Promise<void> => {
-  try {
-    await ensureCsrfCookie();
-  } catch {
-    resetCsrfCookie();
-  }
-};
-
-const postBooking = async (
-  request: BookingRequest,
-  hasRetried: boolean,
-): Promise<Response> => {
-  await primeCsrfCookie();
-
-  const response = await fetch(`${getApiBaseUrl()}${BOOKINGS_PATH}`, {
+const postBooking = async (request: BookingRequest): Promise<Response> =>
+  fetch(`${getApiBaseUrl()}${BOOKINGS_PATH}`, {
     method: "POST",
-    credentials: "include",
-    headers: mutationHeaders(),
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(request),
   });
-
-  if (response.status === 419 && !hasRetried) {
-    resetCsrfCookie();
-    return postBooking(request, true);
-  }
-
-  return response;
-};
 
 const parseBookingResponse = async (
   response: Response,
@@ -294,7 +270,7 @@ export const createBooking = async (
   request: BookingRequest,
 ): Promise<BookingResult> => {
   try {
-    const response = await postBooking(request, false);
+    const response = await postBooking(request);
     return parseBookingResponse(response);
   } catch {
     return networkBookingFailure();

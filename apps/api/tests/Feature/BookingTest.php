@@ -169,19 +169,22 @@ it('rejects a duplicate slot at the database when two rows share a start time', 
     expect(Booking::query()->count())->toBe(1);
 });
 
-it('lets the spa obtain a csrf cookie before posting a booking', function () {
-    $this->withHeader('Origin', 'http://localhost:5173')
-        ->get('/sanctum/csrf-cookie')
-        ->assertNoContent()
-        ->assertHeader('Access-Control-Allow-Origin', 'http://localhost:5173')
-        ->assertHeader('Access-Control-Allow-Credentials', 'true');
-});
+it('accepts a booking from any origin without a session csrf token', function () {
+    $origin = 'https://demo.example';
 
-it('rejects a stateful spa booking that has no csrf token', function () {
-    $this->withHeader('Origin', 'http://localhost:5173')
-        ->withHeader('Referer', 'http://localhost:5173/')
+    $this->withHeader('Origin', $origin)
+        ->withHeader('Access-Control-Request-Method', 'POST')
+        ->options('/api/bookings')
+        ->assertNoContent()
+        ->assertHeader('Access-Control-Allow-Origin', $origin)
+        ->assertHeader('Access-Control-Allow-Credentials', 'true');
+
+    $this->withHeader('Origin', $origin)
+        ->withHeader('Referer', $origin.'/')
         ->postJson('/api/bookings', legendBookingPayload())
-        ->assertStatus(419);
+        ->assertCreated()
+        ->assertHeader('Access-Control-Allow-Origin', $origin)
+        ->assertJsonPath('service.id', 'signature-cut');
 });
 
 it('creates a booking from the spa after the csrf cookie is primed', function () {

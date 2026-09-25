@@ -3,7 +3,6 @@ import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { BookingModal } from "./BookingModal";
 import { SLOT_UNAVAILABLE_MESSAGE } from "../../api/booking";
-import { resetCsrfCookie } from "../../api/client";
 import { services } from "../../lib/services";
 import { addShopDays, isShopSunday, shopToday } from "../../lib/shopTime";
 import type { Service } from "../../types/service";
@@ -66,11 +65,6 @@ const installFetch = (
     vi.fn(async (input: RequestInfo | URL) => {
       const url = String(input);
 
-      if (url.endsWith("/sanctum/csrf-cookie")) {
-        document.cookie = "XSRF-TOKEN=csrf-token";
-        return jsonResponse(204, null);
-      }
-
       if (url.includes("/api/availability")) {
         const date = new URL(url).searchParams.get("date") ?? "";
         const slots =
@@ -115,9 +109,7 @@ const chooseSlot = async (date = openDate()) => {
 describe("booking modal", () => {
   afterEach(() => {
     sessionStorage.clear();
-    resetCsrfCookie();
     vi.unstubAllGlobals();
-    document.cookie = "XSRF-TOKEN=; Max-Age=0";
     document.body.style.overflow = "";
   });
 
@@ -297,10 +289,6 @@ describe("booking modal", () => {
     vi.mocked(fetch).mockImplementation((async (input: RequestInfo | URL) => {
       const url = String(input);
 
-      if (url.endsWith("/sanctum/csrf-cookie")) {
-        return jsonResponse(204, null);
-      }
-
       if (url.includes("/api/availability")) {
         const date = new URL(url).searchParams.get("date") ?? "";
         return jsonResponse(200, { date, slots: ["11:00"] });
@@ -311,7 +299,6 @@ describe("booking modal", () => {
         errors: { email: ["Enter a valid email address."] },
       });
     }) as typeof fetch);
-    resetCsrfCookie();
 
     fireEvent.click(await screen.findByRole("radio", { name: "11:00" }));
     fireEvent.click(screen.getByRole("button", { name: "Confirm booking" }));

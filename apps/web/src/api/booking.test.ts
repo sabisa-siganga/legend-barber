@@ -6,7 +6,6 @@ import {
   fetchAvailability,
   SLOT_UNAVAILABLE_MESSAGE,
 } from "./booking";
-import { resetCsrfCookie } from "./client";
 import type { BookingRequest } from "../types/booking";
 
 const request: BookingRequest = {
@@ -39,9 +38,7 @@ const jsonResponse = (status: number, body: unknown) => ({
 
 describe("booking api", () => {
   afterEach(() => {
-    resetCsrfCookie();
     vi.unstubAllGlobals();
-    document.cookie = "XSRF-TOKEN=; Max-Age=0";
   });
 
   it("loads slots for the requested date", async () => {
@@ -70,16 +67,7 @@ describe("booking api", () => {
   it("posts the booking contract and returns the saved confirmation", async () => {
     vi.stubGlobal(
       "fetch",
-      vi.fn(async (input: RequestInfo | URL) => {
-        const url = String(input);
-
-        if (url.endsWith("/sanctum/csrf-cookie")) {
-          document.cookie = "XSRF-TOKEN=csrf-token";
-          return jsonResponse(204, null);
-        }
-
-        return jsonResponse(201, confirmation);
-      }),
+      vi.fn(async () => jsonResponse(201, confirmation)),
     );
 
     const result = await createBooking(request);
@@ -89,31 +77,25 @@ describe("booking api", () => {
     const init = postCall?.[1];
 
     expect(result).toEqual({ ok: true, confirmation });
+    expect(vi.mocked(fetch)).toHaveBeenCalledTimes(1);
     expect(init?.method).toBe("POST");
-    expect(init?.credentials).toBe("include");
+    expect(init?.credentials).toBeUndefined();
     expect(JSON.parse(String(init?.body))).toEqual(request);
-    expect(init?.headers).toMatchObject({
+    expect(init?.headers).toEqual({
       Accept: "application/json",
       "Content-Type": "application/json",
-      "X-XSRF-TOKEN": "csrf-token",
     });
   });
 
   it("returns field errors and a taken-slot failure without dropping the message", async () => {
     vi.stubGlobal(
       "fetch",
-      vi.fn(async (input: RequestInfo | URL) => {
-        const url = String(input);
-
-        if (url.endsWith("/sanctum/csrf-cookie")) {
-          return jsonResponse(204, null);
-        }
-
-        return jsonResponse(422, {
+      vi.fn(async () =>
+        jsonResponse(422, {
           message: "Enter a valid email address.",
           errors: { email: ["Enter a valid email address."] },
-        });
-      }),
+        }),
+      ),
     );
 
     const invalid = await createBooking(request);
@@ -126,20 +108,13 @@ describe("booking api", () => {
 
     vi.stubGlobal(
       "fetch",
-      vi.fn(async (input: RequestInfo | URL) => {
-        const url = String(input);
-
-        if (url.endsWith("/sanctum/csrf-cookie")) {
-          return jsonResponse(204, null);
-        }
-
-        return jsonResponse(409, {
+      vi.fn(async () =>
+        jsonResponse(409, {
           message: SLOT_UNAVAILABLE_MESSAGE,
           code: "slot_unavailable",
-        });
-      }),
+        }),
+      ),
     );
-    resetCsrfCookie();
 
     const taken = await createBooking(request);
 
