@@ -1,12 +1,13 @@
-import { BrowserRouter, Route, Routes } from 'react-router';
-import { AppLayout } from './components/layout/AppLayout';
-import { AboutPage } from './pages/AboutPage';
-import { AdminBookingsPage } from './pages/AdminBookingsPage';
-import { AdminLoginPage } from './pages/AdminLoginPage';
-import { ContactPage } from './pages/ContactPage';
-import { HomePage } from './pages/HomePage';
-import { ServicesPage } from './pages/ServicesPage';
-import { TermsPage } from './pages/TermsPage';
+import { BrowserRouter, Route, Routes } from "react-router";
+import { AppLayout } from "./components/layout/AppLayout";
+import { routerBasenameFromBaseUrl } from "./lib/siteBase";
+import { AboutPage } from "./pages/AboutPage";
+import { AdminBookingsPage } from "./pages/AdminBookingsPage";
+import { AdminLoginPage } from "./pages/AdminLoginPage";
+import { ContactPage } from "./pages/ContactPage";
+import { HomePage } from "./pages/HomePage";
+import { ServicesPage } from "./pages/ServicesPage";
+import { TermsPage } from "./pages/TermsPage";
 
 export function AppRoutes() {
   return (
@@ -24,9 +25,11 @@ export function AppRoutes() {
   );
 }
 
+const routerBasename = routerBasenameFromBaseUrl(import.meta.env.BASE_URL);
+
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={routerBasename}>
       <AppRoutes />
     </BrowserRouter>
   );

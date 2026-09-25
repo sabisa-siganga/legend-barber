@@ -11,7 +11,7 @@ Legend Barber is a booking website for a barbershop at 18 Rivonia Lane, Sandton.
     api/          Laravel REST API
   docs/           Product and implementation notes
   .github/
-    workflows/    Test workflow
+    workflows/    Test and GitHub Pages workflows
 ```
 
 Node dependencies live in `apps/web`. PHP dependencies live in `apps/api`. There is no shared package workspace.
@@ -88,4 +88,16 @@ GitHub Actions installs and tests both apps on push and pull request.
 
 ## Deployment
 
-Deployment is out of scope for this setup. Do not add hosting configuration until the application is ready to ship.
+The frontend publishes to GitHub Pages from `main`. After the first successful deploy, the site is at [https://sabisa-siganga.github.io/legend-barber/](https://sabisa-siganga.github.io/legend-barber/).
+
+One-time repository setting: **Settings → Pages → Build and deployment → Source: GitHub Actions**. The workflow cannot publish until that source is selected.
+
+`.github/workflows/deploy-web.yml` runs when `apps/web` changes on `main`, or when you start it manually. It installs dependencies, lints, tests, and builds with `VITE_BASE_PATH` set to `/legend-barber/` (the repository name). Local `npm run dev` and `npm run build` leave that variable unset, so they keep serving from `/`.
+
+GitHub Pages has no rewrite rule for client routes. After the build, the workflow copies `dist/index.html` to `dist/404.html`. A direct visit to `/services` receives that shell, and React Router renders the route. The HTTP status for those direct visits stays 404.
+
+The API is not deployed with the site. Production builds omit the development API status line.
+
+A custom domain on this project site is served from `/`, not `/legend-barber/`. If you add one, change `VITE_BASE_PATH` in the workflow to `/`.
+
+The workflow uses GitHub's Pages artifact actions instead of committing a `gh-pages` branch. A branch deploy would need a contents-write token and would store build output in git. The artifact stays out of the repository. Hash URLs were rejected because they would change every public path; the 404 shell keeps the existing `BrowserRouter` paths.

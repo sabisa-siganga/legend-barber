@@ -6,6 +6,7 @@ vendor/
 .env
 .env.*
 !.env.example
+.worktree/
 
 # Logs
 *.log
@@ -39,3 +40,4 @@ Thumbs.db
 .vscode/
 *.swp
 *.swo
+tmp-*/
