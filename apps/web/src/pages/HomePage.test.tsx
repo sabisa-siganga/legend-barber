@@ -112,7 +112,9 @@ describe("homepage", () => {
   it("links the footer to terms", () => {
     renderAt("/");
 
-    expect(screen.getByRole("link", { name: "Terms" })).toHaveAttribute(
+    expect(
+      screen.getByRole("link", { name: "Terms & Conditions" }),
+    ).toHaveAttribute(
       "href",
       "/terms",
     );

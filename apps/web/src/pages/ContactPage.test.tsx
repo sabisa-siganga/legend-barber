@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router";
 import { describe, expect, it } from "vitest";
 import { AppRoutes } from "../App";
+import { shopDetails } from "../lib/shopDetails";
 
 const renderAt = (path: string) => {
   render(
@@ -56,8 +57,8 @@ describe("contact page", () => {
 
     const details = contactDetails();
     expect(
-      within(details).getByRole("link", { name: "+27 11 555 0188" }),
-    ).toHaveAttribute("href", "tel:+27115550188");
+      within(details).getByRole("link", { name: shopDetails.phoneDisplay }),
+    ).toHaveAttribute("href", shopDetails.phoneHref);
     expect(
       within(details).getByRole("link", { name: "hello@crownandblade.co.za" }),
     ).toHaveAttribute("href", "mailto:hello@crownandblade.co.za");
