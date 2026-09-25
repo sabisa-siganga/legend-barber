@@ -8,7 +8,7 @@ final class Shop
 
     public const TIMEZONE = 'Africa/Johannesburg';
 
-    public const LOCATION = '18 Rivonia Lane, Sandton, Johannesburg';
+    public const LOCATION = '42 Kloof Street, Gardens, Cape Town';
 
     public const OPENS_AT = '08:00';
 

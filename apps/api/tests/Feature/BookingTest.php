@@ -47,7 +47,7 @@ it('returns confirmation data and a 30 minute end time for a valid booking', fun
         ->assertJsonPath('date', '2026-09-26')
         ->assertJsonPath('startTime', '10:30')
         ->assertJsonPath('endTime', '11:00')
-        ->assertJsonPath('location', '18 Rivonia Lane, Sandton, Johannesburg')
+        ->assertJsonPath('location', '42 Kloof Street, Gardens, Cape Town')
         ->assertJsonPath('appleCalendarUrl', "/api/bookings/{$reference}/calendar.ics");
 
     $googleUrl = urldecode((string) $response->json('googleCalendarUrl'));
@@ -58,7 +58,7 @@ it('returns confirmation data and a 30 minute end time for a valid booking', fun
         ->toContain('20260926T103000')
         ->toContain('20260926T110000')
         ->toContain('Africa/Johannesburg')
-        ->toContain('18 Rivonia Lane, Sandton, Johannesburg');
+        ->toContain('42 Kloof Street, Gardens, Cape Town');
 
     $booking = Booking::query()->where('reference', $reference)->first();
 

@@ -15,7 +15,7 @@ afterEach(function () {
     Carbon::setTestNow();
 });
 
-it('downloads an ics file with the saved service date times and Sandton address', function () {
+it('downloads an ics file with the saved service date times and Gardens address', function () {
     $created = $this->postJson('/api/bookings', legendBookingPayload([
         'serviceId' => 'skin-fade',
         'date' => '2026-09-28',
@@ -39,7 +39,7 @@ it('downloads an ics file with the saved service date times and Sandton address'
         ->toContain('SUMMARY:Legend Barber - Skin Fade')
         ->toContain('DTSTART;TZID=Africa/Johannesburg:20260928T140000')
         ->toContain('DTEND;TZID=Africa/Johannesburg:20260928T143000')
-        ->toContain('LOCATION:18 Rivonia Lane\, Sandton\, Johannesburg')
+        ->toContain('LOCATION:42 Kloof Street\, Gardens\, Cape Town')
         ->not->toContain('DTSTART;TZID=Africa/Johannesburg:20260926T103000');
 });
 
