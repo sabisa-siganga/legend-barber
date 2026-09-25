@@ -40,6 +40,7 @@ class AdminBookingController extends Controller
                 'startTime' => $this->availability->clockTime($booking->start_time),
                 'endTime' => $this->availability->clockTime($booking->end_time),
                 'serviceName' => $booking->service_name,
+                'price' => intdiv($booking->price_cents, 100),
                 'customerName' => $booking->customer_name,
                 'email' => $booking->email,
                 'phone' => $booking->phone,

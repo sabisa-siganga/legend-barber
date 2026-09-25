@@ -1,8 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router";
+import { AdminRouteGuard } from "./components/admin/AdminRouteGuard";
 import { AppLayout } from "./components/layout/AppLayout";
 import { routerBasenameFromBaseUrl } from "./lib/siteBase";
 import { AboutPage } from "./pages/AboutPage";
-import { AdminBookingsPage } from "./pages/AdminBookingsPage";
+import { AdminDashboardPage } from "./pages/AdminDashboardPage";
 import { AdminLoginPage } from "./pages/AdminLoginPage";
 import { ContactPage } from "./pages/ContactPage";
 import { HomePage } from "./pages/HomePage";
@@ -12,14 +13,16 @@ import { TermsPage } from "./pages/TermsPage";
 export function AppRoutes() {
   return (
     <Routes>
+      <Route path="/admin/login" element={<AdminLoginPage />} />
+      <Route element={<AdminRouteGuard />}>
+        <Route path="/admin" element={<AdminDashboardPage />} />
+      </Route>
       <Route element={<AppLayout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/terms" element={<TermsPage />} />
-        <Route path="/admin/login" element={<AdminLoginPage />} />
-        <Route path="/admin/bookings" element={<AdminBookingsPage />} />
       </Route>
     </Routes>
   );
