@@ -50,7 +50,9 @@ The API runs at http://localhost:8000. `GET /api/health` returns:
 { "status": "ok", "service": "legend-barber-api" }
 ```
 
-Set `DB_USERNAME` and `DB_PASSWORD` in `apps/api/.env` to a local MySQL account. Session, cache, and queue drivers are files or `sync`, so the health check does not need MySQL.
+Set `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, and `DB_PASSWORD` in `apps/api/.env` to a local MySQL account. Set `ADMIN_PASSWORD` to the single admin password. Do not commit that value. Session, cache, and queue drivers are files or `sync`, so the health check does not need MySQL.
+
+The API uses `Africa/Johannesburg` for shop hours and booking times. CORS allows credentialed requests only from `FRONTEND_URL`. Sanctum treats `SANCTUM_STATEFUL_DOMAINS` as the React origin for the admin cookie session.
 
 Create the database before the first migration:
 
@@ -58,16 +60,15 @@ Create the database before the first migration:
 CREATE DATABASE legend_barber CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
-Run migrations when you are ready to create tables:
+Run migrations and seed the six services:
 
 ```bash
 cd apps/api
 php artisan migrate
+php artisan db:seed
 ```
 
-The Laravel skeleton already includes migrations for the framework `users`, `cache`, and `jobs` tables. Booking tables are not included yet.
-
-CORS allows the local frontend origin `http://localhost:5173` through `FRONTEND_URL`.
+The Laravel skeleton already includes migrations for the framework `users`, `cache`, and `jobs` tables. Admin login does not use that users table. Booking availability is enforced again inside a transaction, and a unique index on `booking_date` plus `start_time` is the last line of defence when two requests arrive together. A booking queue was rejected because one chair and one slot do not need background jobs.
 
 ## Tests
 
