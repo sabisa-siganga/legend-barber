@@ -7,5 +7,5 @@ export const primaryNavigation = [
 
 export const termsLink = {
   to: "/terms",
-  label: "Terms",
+  label: "Terms & Conditions",
 } as const;
