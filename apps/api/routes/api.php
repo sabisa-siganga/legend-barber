@@ -5,15 +5,11 @@ use App\Http\Controllers\Api\AdminBookingController;
 use App\Http\Controllers\Api\AvailabilityController;
 use App\Http\Controllers\Api\BookingController;
 use App\Http\Controllers\Api\CalendarController;
+use App\Http\Controllers\Api\HealthController;
 use App\Http\Controllers\Api\ServiceController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/health', function () {
-    return response()->json([
-        'status' => 'ok',
-        'service' => 'legend-barber-api',
-    ]);
-});
+Route::get('/health', [HealthController::class, 'show']);
 
 Route::get('/services', [ServiceController::class, 'index']);
 Route::get('/availability', [AvailabilityController::class, 'show']);
