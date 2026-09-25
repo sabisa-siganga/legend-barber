@@ -118,11 +118,14 @@ describe("homepage", () => {
     );
   });
 
-  it("keeps the services placeholder route", () => {
+  it("opens the services page from the services route", () => {
     renderAt("/services");
 
     expect(
-      screen.getByRole("heading", { name: "Services" }),
+      screen.getByRole("heading", {
+        level: 1,
+        name: "Services built around the detail.",
+      }),
     ).toBeInTheDocument();
   });
 });
