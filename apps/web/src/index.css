@@ -1,0 +1,14 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-ink: #111111;
+  --color-concrete: #5e5b56;
+  --color-bone: #f0ede6;
+  --color-rust: #b54832;
+}
+
+body {
+  margin: 0;
+  background: #111111;
+  color: #f0ede6;
+}
