@@ -95,7 +95,7 @@ const slotMessage = (date: string, slotState: SlotState): string | null => {
 
   if (slotState.slots.length === 0) {
     if (isShopSunday(date)) {
-      return "Legend Barber is closed on Sundays.";
+      return "Crown & Blade is closed on Sundays.";
     }
 
     return "No times are available on this date.";

@@ -1,3 +1,3 @@
-# Legend Barber API
+# Crown & Blade API
 
-Laravel REST API for the Legend Barber monorepo. Setup, run, and test commands are in the repository root README.
+Laravel REST API for the Crown & Blade monorepo. Setup, run, and test commands are in the repository root README.

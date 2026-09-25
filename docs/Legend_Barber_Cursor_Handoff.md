@@ -1,8 +1,8 @@
-# Legend Barber Implementation Plan
+# Crown & Blade Implementation Plan
 
 > **For Cursor:** Build the React frontend and Laravel API task-by-task. Keep the project lean, test core rules first, and do not add features outside this document.
 
-**Goal:** Build a polished, responsive Legend Barber website with a service-led booking flow, persistent time-slot validation, calendar actions and a read-only admin dashboard.
+**Goal:** Build a polished, responsive Crown & Blade website with a service-led booking flow, persistent time-slot validation, calendar actions and a read-only admin dashboard.
 
 **Architecture:** Separate React SPA and Laravel REST API. The frontend owns the public pages, modal interaction and same-tab contact prefill. Laravel owns services, availability, bookings, calendar files and the single-admin session. MySQL persists bookings.
 
@@ -14,7 +14,7 @@
 
 ## 1. Non-negotiable product rules
 
-- Brand name: **Legend Barber**.
+- Brand name: **Crown & Blade**.
 - Location: **18 Rivonia Lane, Sandton, Johannesburg**.
 - Phone: **+27 11 555 0188**. Email: **hello@legendbarber.co.za**.
 - Open Monday–Saturday, 08:00–17:00. Closed Sundays. Public holidays are open when they fall Monday–Saturday.
@@ -36,12 +36,12 @@
 
 Modern urban, dark and bold. The site should feel authored and editorial, not generated from a generic landing-page template.
 
-| Token | Value | Use |
-|---|---:|---|
-| Ink | `#111111` | Primary background |
-| Concrete | `#5E5B56` | Secondary copy, rules and muted areas |
-| Bone | `#F0EDE6` | Primary text and light surfaces |
-| Rust | `#B54832` | Primary actions, selected states, active nav and small rules only |
+| Token    |     Value | Use                                                               |
+| -------- | --------: | ----------------------------------------------------------------- |
+| Ink      | `#111111` | Primary background                                                |
+| Concrete | `#5E5B56` | Secondary copy, rules and muted areas                             |
+| Bone     | `#F0EDE6` | Primary text and light surfaces                                   |
+| Rust     | `#B54832` | Primary actions, selected states, active nav and small rules only |
 
 ### Typography
 
@@ -53,7 +53,7 @@ Modern urban, dark and bold. The site should feel authored and editorial, not ge
 
 Create these as SVGs, not raster images:
 
-1. `legend-barber-lockup.svg`: geometric crown mark plus “LEGEND BARBER” wordmark.
+1. `legend-barber-lockup.svg`: geometric crown mark plus “Crown & Blade” wordmark.
 2. `legend-barber-crown.svg`: standalone geometric, understated crown icon.
 3. `favicon.svg`: simplified crown icon.
 
@@ -63,19 +63,19 @@ The crown must use clean geometric peaks and a stable base. It must not resemble
 
 Use real, high-quality photographs or carefully generated photorealistic editorial images. Keep the same colour temperature, contrast and urban barbershop mood. Avoid glossy AI faces, impossible tools/hands, text in images and over-smoothed interiors.
 
-| Asset path | Intended subject | Alt text |
-|---|---|---|
-| `src/assets/images/hero-barber-shop.jpg` | Dark, modern Sandton barbershop interior with a single barber chair, mirrored station and textured concrete/wood finishes | `Interior of Legend Barber in Sandton` |
-| `src/assets/images/service-signature-cut.jpg` | Close but natural editorial view of a precision scissor cut | `Precision signature haircut in progress` |
-| `src/assets/images/service-skin-fade.jpg` | Clean side profile showing a finished skin fade | `Finished skin fade haircut` |
-| `src/assets/images/service-cut-beard.jpg` | Groomed haircut and beard detail, calm side profile | `Cut and beard detail finish` |
-| `src/assets/images/service-beard-shape.jpg` | Barber defining a beard edge with realistic tools and hand placement | `Beard shape-up service` |
-| `src/assets/images/service-kids-cut.jpg` | Respectful, non-identifying child haircut scene, photographed from behind or side | `Kids haircut service` |
-| `src/assets/images/service-line-up.jpg` | Detail of a crisp hairline finish | `Line-up and edge detail` |
-| `src/assets/images/home-craft.jpg` | Wide barbershop work scene with real proportions and restrained lighting | `Barber at work at Legend Barber` |
-| `src/assets/images/about-space.jpg` | Interior detail, chair and mirror composition | `Legend Barber workspace` |
-| `src/assets/images/about-craft.jpg` | Natural close-up of precise barbering work | `Detail-focused barbering work` |
-| `src/assets/images/about-finish.jpg` | Confident finished cut, editorial rather than posed stock portrait | `Finished cut at Legend Barber` |
+| Asset path                                    | Intended subject                                                                                                          | Alt text                                  |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
+| `src/assets/images/hero-barber-shop.jpg`      | Dark, modern Sandton barbershop interior with a single barber chair, mirrored station and textured concrete/wood finishes | `Interior of Crown & Blade in Sandton`    |
+| `src/assets/images/service-signature-cut.jpg` | Close but natural editorial view of a precision scissor cut                                                               | `Precision signature haircut in progress` |
+| `src/assets/images/service-skin-fade.jpg`     | Clean side profile showing a finished skin fade                                                                           | `Finished skin fade haircut`              |
+| `src/assets/images/service-cut-beard.jpg`     | Groomed haircut and beard detail, calm side profile                                                                       | `Cut and beard detail finish`             |
+| `src/assets/images/service-beard-shape.jpg`   | Barber defining a beard edge with realistic tools and hand placement                                                      | `Beard shape-up service`                  |
+| `src/assets/images/service-kids-cut.jpg`      | Respectful, non-identifying child haircut scene, photographed from behind or side                                         | `Kids haircut service`                    |
+| `src/assets/images/service-line-up.jpg`       | Detail of a crisp hairline finish                                                                                         | `Line-up and edge detail`                 |
+| `src/assets/images/home-craft.jpg`            | Wide barbershop work scene with real proportions and restrained lighting                                                  | `Barber at work at Crown & Blade`         |
+| `src/assets/images/about-space.jpg`           | Interior detail, chair and mirror composition                                                                             | `Crown & Blade workspace`                 |
+| `src/assets/images/about-craft.jpg`           | Natural close-up of precise barbering work                                                                                | `Detail-focused barbering work`           |
+| `src/assets/images/about-finish.jpg`          | Confident finished cut, editorial rather than posed stock portrait                                                        | `Finished cut at Crown & Blade`           |
 
 Service images must map one-to-one to services. Do not reuse the same image for different service cards.
 
@@ -94,14 +94,14 @@ Service images must map one-to-one to services. Do not reuse the same image for 
 1. Hero headline: **Built for the detail.**
 2. Hero supporting line: **Precision cuts. Clean finishes. No shortcuts.**
 3. Hero CTA: **Explore Services** → `/services`.
-4. Brand statement: **Legend Barber is a space for sharp work, good energy and a look that holds up long after you leave.**
+4. Brand statement: **Crown & Blade is a space for sharp work, good energy and a look that holds up long after you leave.**
 5. Homepage service preview: Signature Cut, Skin Fade, Cut + Beard Detail. Show their image, name and price only. CTA: **View all services** → `/services`.
 6. Hours/location preview: Monday–Saturday 08:00–17:00; 18 Rivonia Lane, Sandton, Johannesburg. CTA goes to `/contact`.
 
 ### About page
 
 - Headline: **Good work speaks for itself.**
-- Supporting statement: **Legend Barber is built around discipline, detail and a standard you can feel in every finish.**
+- Supporting statement: **Crown & Blade is built around discipline, detail and a standard you can feel in every finish.**
 - Story: a concise balanced narrative about sharp craft and the energy of Sandton, Johannesburg.
 - Standards:
   1. Detail over shortcuts
@@ -121,14 +121,14 @@ Service images must map one-to-one to services. Do not reuse the same image for 
 
 ### Services
 
-| id | Name | Price | Image | Suggested description |
-|---|---|---:|---|---|
-| `signature-cut` | Signature Cut | R220 | `service-signature-cut.jpg` | A precise cut shaped for your everyday routine. |
-| `skin-fade` | Skin Fade | R250 | `service-skin-fade.jpg` | Clean transitions, sharp finish and controlled detail. |
-| `cut-beard-detail` | Cut + Beard Detail | R320 | `service-cut-beard.jpg` | A complete reset for your cut and beard line. |
-| `beard-shape-up` | Beard Shape-Up | R150 | `service-beard-shape.jpg` | Defined edges and a cleaner beard profile. |
-| `kids-cut` | Kids Cut | R160 | `service-kids-cut.jpg` | A comfortable, sharp cut for younger clients. |
-| `line-up-edge-detail` | Line-Up & Edge Detail | R120 | `service-line-up.jpg` | Crisp lines for a clean in-between refresh. |
+| id                    | Name                  | Price | Image                       | Suggested description                                  |
+| --------------------- | --------------------- | ----: | --------------------------- | ------------------------------------------------------ |
+| `signature-cut`       | Signature Cut         |  R220 | `service-signature-cut.jpg` | A precise cut shaped for your everyday routine.        |
+| `skin-fade`           | Skin Fade             |  R250 | `service-skin-fade.jpg`     | Clean transitions, sharp finish and controlled detail. |
+| `cut-beard-detail`    | Cut + Beard Detail    |  R320 | `service-cut-beard.jpg`     | A complete reset for your cut and beard line.          |
+| `beard-shape-up`      | Beard Shape-Up        |  R150 | `service-beard-shape.jpg`   | Defined edges and a cleaner beard profile.             |
+| `kids-cut`            | Kids Cut              |  R160 | `service-kids-cut.jpg`      | A comfortable, sharp cut for younger clients.          |
+| `line-up-edge-detail` | Line-Up & Edge Detail |  R120 | `service-line-up.jpg`       | Crisp lines for a clean in-between refresh.            |
 
 Every full service card has **Book this service**. Clicking it opens the booking modal with that exact service fixed.
 
@@ -194,15 +194,15 @@ legend-barber-web/
 
 ### Required frontend routes
 
-| Route | Page |
-|---|---|
-| `/` | HomePage |
-| `/services` | ServicesPage |
-| `/about` | AboutPage |
-| `/contact` | ContactPage |
-| `/terms` | TermsPage |
-| `/admin/login` | AdminLoginPage |
-| `/admin` | AdminDashboardPage, protected by API session check |
+| Route          | Page                                               |
+| -------------- | -------------------------------------------------- |
+| `/`            | HomePage                                           |
+| `/services`    | ServicesPage                                       |
+| `/about`       | AboutPage                                          |
+| `/contact`     | ContactPage                                        |
+| `/terms`       | TermsPage                                          |
+| `/admin/login` | AdminLoginPage                                     |
+| `/admin`       | AdminDashboardPage, protected by API session check |
 
 ### Booking modal states
 
@@ -226,8 +226,8 @@ export type Service = {
 
 export type BookingInput = {
   serviceId: string;
-  date: string;       // YYYY-MM-DD
-  startTime: string;  // HH:mm, Africa/Johannesburg
+  date: string; // YYYY-MM-DD
+  startTime: string; // HH:mm, Africa/Johannesburg
   customerName: string;
   email: string;
   phone: string;
@@ -235,7 +235,7 @@ export type BookingInput = {
 
 export type BookingConfirmation = {
   reference: string;
-  service: Pick<Service, 'id' | 'name' | 'price'>;
+  service: Pick<Service, "id" | "name" | "price">;
   date: string;
   startTime: string;
   endTime: string;
@@ -281,46 +281,46 @@ legend-barber-api/
 
 #### `services`
 
-| Column | Notes |
-|---|---|
-| `id` | string primary key, uses the service IDs above |
-| `name` | required |
-| `price_cents` | integer, e.g. `22000` for R220 |
-| `description` | required |
-| `is_active` | boolean, default true |
-| timestamps | standard |
+| Column        | Notes                                          |
+| ------------- | ---------------------------------------------- |
+| `id`          | string primary key, uses the service IDs above |
+| `name`        | required                                       |
+| `price_cents` | integer, e.g. `22000` for R220                 |
+| `description` | required                                       |
+| `is_active`   | boolean, default true                          |
+| timestamps    | standard                                       |
 
 #### `bookings`
 
-| Column | Notes |
-|---|---|
-| `id` | primary key |
-| `reference` | UUID or non-guessable unique public reference |
-| `service_id` | foreign key to `services` |
-| `service_name` | snapshot at booking time |
-| `price_cents` | snapshot at booking time |
-| `booking_date` | date |
-| `start_time` | time |
-| `end_time` | time, always start + 30 minutes |
-| `customer_name` | string |
-| `email` | string |
-| `phone` | string |
-| timestamps | standard |
+| Column          | Notes                                         |
+| --------------- | --------------------------------------------- |
+| `id`            | primary key                                   |
+| `reference`     | UUID or non-guessable unique public reference |
+| `service_id`    | foreign key to `services`                     |
+| `service_name`  | snapshot at booking time                      |
+| `price_cents`   | snapshot at booking time                      |
+| `booking_date`  | date                                          |
+| `start_time`    | time                                          |
+| `end_time`      | time, always start + 30 minutes               |
+| `customer_name` | string                                        |
+| `email`         | string                                        |
+| `phone`         | string                                        |
+| timestamps      | standard                                      |
 
 Add a database unique constraint on `(booking_date, start_time)`. This is essential: it is the final duplicate-booking defence under concurrent requests.
 
 ### API routes and contracts
 
-| Method | Route | Purpose |
-|---|---|---|
-| `GET` | `/api/services` | Return active services |
-| `GET` | `/api/availability?date=YYYY-MM-DD` | Return available 30-minute slots for date |
-| `POST` | `/api/bookings` | Validate and create booking |
-| `GET` | `/api/bookings/{reference}/calendar.ics` | Download saved booking's Apple-compatible calendar event |
-| `POST` | `/api/admin/login` | Log in the one admin account |
-| `POST` | `/api/admin/logout` | End admin session |
-| `GET` | `/api/admin/session` | Return current admin session state |
-| `GET` | `/api/admin/bookings?date=YYYY-MM-DD` | Return one day's bookings; admin only |
+| Method | Route                                    | Purpose                                                  |
+| ------ | ---------------------------------------- | -------------------------------------------------------- |
+| `GET`  | `/api/services`                          | Return active services                                   |
+| `GET`  | `/api/availability?date=YYYY-MM-DD`      | Return available 30-minute slots for date                |
+| `POST` | `/api/bookings`                          | Validate and create booking                              |
+| `GET`  | `/api/bookings/{reference}/calendar.ics` | Download saved booking's Apple-compatible calendar event |
+| `POST` | `/api/admin/login`                       | Log in the one admin account                             |
+| `POST` | `/api/admin/logout`                      | End admin session                                        |
+| `GET`  | `/api/admin/session`                     | Return current admin session state                       |
+| `GET`  | `/api/admin/bookings?date=YYYY-MM-DD`    | Return one day's bookings; admin only                    |
 
 #### `GET /api/availability`
 
@@ -358,7 +358,7 @@ On success return `201` and `BookingConfirmation`. Build `endTime` as start plus
 
 #### Calendar generation
 
-- Google: build a prefilled event URL using saved booking data, title `Legend Barber — {service name}`, local date/time, location `18 Rivonia Lane, Sandton, Johannesburg`, and a short appointment description.
+- Google: build a prefilled event URL using saved booking data, title `Crown & Blade — {service name}`, local date/time, location `18 Rivonia Lane, Sandton, Johannesburg`, and a short appointment description.
 - Apple-compatible: `CalendarController` outputs a valid `text/calendar; charset=utf-8` `.ics` file. Use saved data, 30-minute start/end and timezone `Africa/Johannesburg`.
 - Use the non-guessable booking `reference` in the `.ics` URL. Never use a sequential database ID as a public booking reference.
 
@@ -477,4 +477,4 @@ On success return `201` and `BookingConfirmation`. Build `endTime` as start plus
 
 Paste this with the two companion documents attached:
 
-> Build the Legend Barber project from the implementation plan. Create separate React and Laravel projects, do not implement deployment, and do not add features outside the agreed scope. Start with Laravel migrations, seed data and tested availability/booking endpoints, then build the React pages and service-specific booking modal. Preserve every product rule, copy string, asset mapping and API contract in the plan. Use focused components and tests for booking collision prevention, calendar event correctness and admin endpoint protection. Before calling the work complete, run the specified automated tests and the manual acceptance script.
+> Build the Crown & Blade project from the implementation plan. Create separate React and Laravel projects, do not implement deployment, and do not add features outside the agreed scope. Start with Laravel migrations, seed data and tested availability/booking endpoints, then build the React pages and service-specific booking modal. Preserve every product rule, copy string, asset mapping and API contract in the plan. Use focused components and tests for booking collision prevention, calendar event correctness and admin endpoint protection. Before calling the work complete, run the specified automated tests and the manual acceptance script.

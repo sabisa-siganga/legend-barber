@@ -347,7 +347,7 @@ describe("booking modal", () => {
     });
 
     expect(
-      await screen.findByText("Legend Barber is closed on Sundays."),
+      await screen.findByText("Crown & Blade is closed on Sundays."),
     ).toBeInTheDocument();
     expect(screen.queryByRole("radio")).not.toBeInTheDocument();
   });

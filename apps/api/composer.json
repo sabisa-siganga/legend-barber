@@ -2,7 +2,7 @@
   "$schema": "https://getcomposer.org/schema.json",
   "name": "legend-barber/api",
   "type": "project",
-  "description": "Legend Barber REST API.",
+  "description": "Crown & Blade REST API.",
   "keywords": [
     "laravel",
     "framework"

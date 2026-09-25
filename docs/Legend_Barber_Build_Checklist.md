@@ -1,4 +1,4 @@
-# Legend Barber: Build Checklist
+# Crown & Blade: Build Checklist
 
 Use this checklist alongside the feature reference. Check items only after they are built and tested in the deployed app.
 
@@ -17,7 +17,7 @@ Use this checklist alongside the feature reference. Check items only after they 
 
 ## 2. Brand and assets
 
-- [ ] Create the Legend Barber wordmark.
+- [ ] Create the Crown & Blade wordmark.
 - [ ] Create the geometric modern-crown symbol.
 - [ ] Create a compact crown icon and favicon.
 - [ ] Apply the agreed palette: near-black, concrete grey, bone white and burnt rust.
@@ -96,7 +96,7 @@ Use this checklist alongside the feature reference. Check items only after they 
 - [ ] Generate the Google Calendar event from the saved booking data.
 - [ ] Add an **Add to Apple-compatible Calendar** action.
 - [ ] Generate a downloadable `.ics` event from the saved booking data.
-- [ ] Include Legend Barber, the selected service, 30-minute start/end times and Sandton location in both events.
+- [ ] Include Crown & Blade, the selected service, 30-minute start/end times and Sandton location in both events.
 - [ ] Test two different bookings to confirm the calendar details are not hard-coded.
 
 ## 9. Other pages

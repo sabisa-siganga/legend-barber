@@ -61,7 +61,7 @@ describe("booking validation", () => {
   it("rejects a sunday, a past date, and a time the availability list does not include", () => {
     expect(
       validateBookingInput(draft({ date: upcomingSunday() }), ["10:30"]).date,
-    ).toBe("Legend Barber is closed on Sundays.");
+    ).toBe("Crown & Blade is closed on Sundays.");
     expect(
       validateBookingInput(
         draft({

@@ -19,7 +19,7 @@ const dateError = (date: string): string | undefined => {
   }
 
   if (isShopSunday(trimmed)) {
-    return "Legend Barber is closed on Sundays.";
+    return "Crown & Blade is closed on Sundays.";
   }
 
   return undefined;

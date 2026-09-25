@@ -1,6 +1,6 @@
-# Legend Barber
+# Crown & Blade
 
-Legend Barber is a booking website for a barbershop at 18 Rivonia Lane, Sandton. This repository is the local development foundation: a React frontend and a Laravel REST API in one repo. The public site, booking flow, and admin dashboard are not built yet.
+Crown & Blade is a booking website for a barbershop at 18 Rivonia Lane, Sandton. This repository is a React frontend and a Laravel REST API in one repo. The public site includes the booking flow. The admin dashboard is a separate signed-in page.
 
 ## Structure
 
@@ -69,6 +69,14 @@ php artisan db:seed
 ```
 
 The Laravel skeleton already includes migrations for the framework `users`, `cache`, and `jobs` tables. Admin login does not use that users table. Booking availability is enforced again inside a transaction, and a unique index on `booking_date` plus `start_time` is the last line of defence when two requests arrive together. A booking queue was rejected because one chair and one slot do not need background jobs.
+
+## Admin
+
+The dashboard is read-only. After signing in, an admin can pick a date, including a future date, and see that day's bookings: time, service, customer name, email, and phone number. The same page shows the shop hours. There are no controls to edit or delete bookings, change services, or change hours.
+
+Start the API and the frontend, then open [http://localhost:5173/admin/login](http://localhost:5173/admin/login). Sign in with username `admin` and the `ADMIN_PASSWORD` value from `apps/api/.env`. A successful login goes to [http://localhost:5173/admin](http://localhost:5173/admin). Visiting `/admin` without a session returns you to the login page. Use **Log out** on the dashboard to end the session.
+
+The password is compared on the server and is not stored in the database or shipped to the frontend. Do not commit it. The GitHub Pages site does not include the API, so this login only works while the local API is running.
 
 ## Tests
 
