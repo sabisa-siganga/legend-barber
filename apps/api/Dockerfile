@@ -1,44 +1,50 @@
-FROM php:8.4-fpm-alpine
+FROM composer:2 AS vendor
 
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+WORKDIR /app
 
-RUN apk add --no-cache \
-        gettext \
-        libpq \
-        libzip \
-        nginx \
-        unzip \
-    && apk add --no-cache --virtual .build-deps \
-        libzip-dev \
-        postgresql-dev \
-    && docker-php-ext-install opcache pdo_pgsql zip \
-    && apk del .build-deps \
-    && rm -f /etc/nginx/http.d/default.conf \
-    && printf '%s\n' \
-        'opcache.enable=1' \
-        'opcache.enable_cli=1' \
-        'opcache.validate_timestamps=0' \
-        > /usr/local/etc/php/conf.d/opcache.ini
+COPY composer.json composer.lock ./
+RUN composer install \
+    --no-dev \
+    --no-interaction \
+    --no-progress \
+    --prefer-dist \
+    --optimize-autoloader \
+    --no-scripts
+
+COPY . .
+RUN composer dump-autoload --no-dev --optimize
+
+FROM php:8.3-apache
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends libicu-dev libonig-dev \
+    && docker-php-ext-install -j$(nproc) bcmath intl mbstring opcache pdo_mysql \
+    && a2enmod headers rewrite \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV APP_ENV=production \
+    APP_DEBUG=false \
+    LOG_CHANNEL=stderr \
+    APACHE_DOCUMENT_ROOT=/var/www/html/public \
+    PORT=10000
+
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
+        /etc/apache2/sites-available/*.conf \
+        /etc/apache2/apache2.conf \
+        /etc/apache2/conf-available/*.conf \
+    && sed -ri 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf \
+    && sed -ri 's/Listen 80/Listen 10000/' /etc/apache2/ports.conf \
+    && sed -ri 's/:80>/:10000>/' /etc/apache2/sites-available/*.conf
 
 WORKDIR /var/www/html
 
-COPY . .
+COPY --from=vendor /app .
+COPY docker/start.sh /usr/local/bin/start
 
-RUN composer install \
-        --no-dev \
-        --no-interaction \
-        --prefer-dist \
-        --optimize-autoloader \
-        --no-scripts \
-    && php artisan package:discover --ansi \
-    && mkdir -p \
-        bootstrap/cache \
-        storage/framework/cache/data \
-        storage/framework/sessions \
-        storage/framework/views \
-        storage/logs \
-    && chown -R www-data:www-data storage bootstrap/cache
+RUN chmod +x /usr/local/bin/start \
+    && chown -R www-data:www-data storage bootstrap/cache \
+    && chmod -R ug+rwX storage bootstrap/cache
 
 EXPOSE 10000
 
-CMD ["sh", "docker/start.sh"]
+CMD ["start"]
