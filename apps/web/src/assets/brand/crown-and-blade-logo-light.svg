@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 160" role="img" aria-labelledby="title desc">
+  <title id="title">Crown and Blade</title>
+  <desc id="desc">Crown and Blade barber shop wordmark with geometric crown and blade symbol.</desc>
+  <g transform="translate(0 0)">
+    <path fill="#F0EDE6" d="M22 42 53 69 80 25l27 44 31-27-13 79H35L22 42Zm20 55h76l3-18H39l3 18Z"/>
+    <path fill="#B54832" d="m89 39 9 5-25 70-9-5 25-70Z"/>
+    <path fill="#111111" d="m90 51 4 2-20 55-4-2 20-55Z" opacity=".85"/>
+  </g>
+  <text x="172" y="75" fill="#F0EDE6" font-family="Arial Narrow, Roboto Condensed, sans-serif" font-size="48" font-weight="700" letter-spacing="5">CROWN</text>
+  <text x="172" y="128" fill="#F0EDE6" font-family="Arial Narrow, Roboto Condensed, sans-serif" font-size="48" font-weight="700" letter-spacing="5">AND BLADE</text>
+  <path fill="#B54832" d="M172 143h378v5H172z"/>
+</svg>

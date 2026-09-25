@@ -1,14 +1,70 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @theme {
   --color-ink: #111111;
   --color-concrete: #5e5b56;
   --color-bone: #f0ede6;
   --color-rust: #b54832;
+  /* Concrete is too faint on ink. Ash is the secondary text colour for dark surfaces. */
+  --color-ash: #c8c3ba;
+  --font-sans: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-display:
+    "Archivo Narrow", "Arial Narrow", "Roboto Condensed", sans-serif;
+}
+
+html {
+  background: var(--color-ink);
+  color-scheme: dark;
+  overflow-x: clip;
 }
 
 body {
   margin: 0;
-  background: #111111;
-  color: #f0ede6;
+  background: var(--color-ink);
+  color: var(--color-bone);
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-rust);
+  color: var(--color-bone);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-rust);
+  outline-offset: 3px;
+}
+
+:focus-visible[data-emphasis="solid"] {
+  outline-color: var(--color-bone);
+}
+
+@keyframes hero-reveal {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.hero-media {
+  animation: hero-reveal 700ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }

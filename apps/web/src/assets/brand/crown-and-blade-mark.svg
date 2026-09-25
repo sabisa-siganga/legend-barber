@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="title desc">
+  <title id="title">Crown and Blade symbol</title>
+  <desc id="desc">A geometric crown divided by a subtle blade line.</desc>
+  <path fill="#111111" d="M22 42 53 69 80 25l27 44 31-27-13 79H35L22 42Zm20 55h76l3-18H39l3 18Z"/>
+  <path fill="#B54832" d="m89 39 9 5-25 70-9-5 25-70Z"/>
+  <path fill="#F0EDE6" d="m90 51 4 2-20 55-4-2 20-55Z" opacity=".92"/>
+</svg>

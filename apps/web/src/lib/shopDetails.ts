@@ -1,0 +1,15 @@
+export const shopDetails = {
+  name: "Crown and Blade",
+  documentTitle: "Crown and Blade | Cape Town Barber Shop",
+  locationLabel: "GARDENS, CAPE TOWN",
+  addressLine1: "42 Kloof Street",
+  addressLine2: "Gardens, Cape Town",
+  phoneDisplay: "+27 21 555 0188",
+  phoneHref: "tel:+27215550188",
+  email: "hello@crownandblade.co.za",
+  emailHref: "mailto:hello@crownandblade.co.za",
+  hoursCompact: "Mon–Sat · 08:00–17:00",
+  hoursWeekday: "Monday–Saturday · 08:00–17:00",
+  hoursSunday: "Sundays · Closed",
+  copyright: "© 2026 Crown and Blade. All rights reserved.",
+} as const;

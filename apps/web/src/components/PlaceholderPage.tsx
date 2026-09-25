@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode } from "react";
 
 type PlaceholderPageProps = {
   title: string;
@@ -7,9 +7,11 @@ type PlaceholderPageProps = {
 
 export function PlaceholderPage({ title, children }: PlaceholderPageProps) {
   return (
-    <section>
-      <h1 className="text-3xl font-semibold tracking-tight">{title}</h1>
-      <p className="mt-3 text-concrete">Temporary page while the site is set up.</p>
+    <section className="mx-auto w-full max-w-5xl px-5 py-16 sm:px-8">
+      <h1 className="font-display text-4xl leading-none font-semibold tracking-[-0.03em]">
+        {title}
+      </h1>
+      <p className="mt-3 text-ash">Temporary page while the site is set up.</p>
       {children}
     </section>
   );
