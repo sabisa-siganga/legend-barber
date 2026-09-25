@@ -36,7 +36,7 @@ it('downloads an ics file with the saved service date times and Gardens address'
 
     expect($calendar)
         ->toContain('BEGIN:VCALENDAR')
-        ->toContain('SUMMARY:Legend Barber - Skin Fade')
+        ->toContain('SUMMARY:Crown & Blade - Skin Fade')
         ->toContain('DTSTART;TZID=Africa/Johannesburg:20260928T140000')
         ->toContain('DTEND;TZID=Africa/Johannesburg:20260928T143000')
         ->toContain('LOCATION:42 Kloof Street\, Gardens\, Cape Town')

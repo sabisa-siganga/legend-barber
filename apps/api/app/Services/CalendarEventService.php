@@ -37,7 +37,7 @@ class CalendarEventService
         $lines = [
             'BEGIN:VCALENDAR',
             'VERSION:2.0',
-            'PRODID:-//Legend Barber//Bookings//EN',
+            'PRODID:-//Crown & Blade//Bookings//EN',
             'CALSCALE:GREGORIAN',
             'METHOD:PUBLISH',
             'BEGIN:VTIMEZONE',
@@ -77,7 +77,7 @@ class CalendarEventService
 
     private function description(Booking $booking): string
     {
-        return 'Legend Barber appointment for '.$booking->service_name.'.';
+        return 'Crown & Blade appointment for '.$booking->service_name.'.';
     }
 
     private function googleDateTime(Booking $booking, string $which): string

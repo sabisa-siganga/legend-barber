@@ -54,7 +54,7 @@ it('returns confirmation data and a 30 minute end time for a valid booking', fun
 
     expect($googleUrl)
         ->toContain('https://calendar.google.com/calendar/render')
-        ->toContain('Legend Barber - Signature Cut')
+        ->toContain('Crown & Blade - Signature Cut')
         ->toContain('20260926T103000')
         ->toContain('20260926T110000')
         ->toContain('Africa/Johannesburg')

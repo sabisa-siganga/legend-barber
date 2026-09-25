@@ -4,7 +4,7 @@ namespace App\Support;
 
 final class Shop
 {
-    public const NAME = 'Legend Barber';
+    public const NAME = 'Crown & Blade';
 
     public const TIMEZONE = 'Africa/Johannesburg';
 

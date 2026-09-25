@@ -90,7 +90,7 @@ class StoreBookingRequest extends FormRequest
             }
 
             if ($availability->isSunday($date)) {
-                $validator->errors()->add('date', 'Legend Barber is closed on Sundays.');
+                $validator->errors()->add('date', 'Crown & Blade is closed on Sundays.');
             }
 
             if (! is_string($startTime)) {
