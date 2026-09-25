@@ -4,9 +4,6 @@ import { SiteButton } from "../components/layout/SiteButton";
 import { SiteContainer } from "../components/layout/SiteContainer";
 import { shopDetails } from "../lib/shopDetails";
 
-const contactPhoneDisplay = "+27 11 555 0188";
-const contactPhoneHref = "tel:+27115550188";
-
 const openingHours = [
   "Monday–Saturday: 08:00–17:00",
   "Sunday: Closed",
@@ -73,8 +70,8 @@ export function ContactPage() {
             <div className={detailRuleClassName}>
               <dt className={detailLabelClassName}>Call</dt>
               <dd className="mt-3">
-                <a href={contactPhoneHref} className={contactLinkClassName}>
-                  {contactPhoneDisplay}
+                <a href={shopDetails.phoneHref} className={contactLinkClassName}>
+                  {shopDetails.phoneDisplay}
                 </a>
               </dd>
             </div>
