@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build output
+dist/
+dist-ssr/
+build/
+public/build/
+public/hot/
+
+# Laravel
+bootstrap/cache/*.php
+storage/*.key
+database/*.sqlite
+database/*.sqlite-journal
+
+# Tests and caches
+.phpunit.result.cache
+.phpunit.cache
+coverage/
+
+# OS and editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
