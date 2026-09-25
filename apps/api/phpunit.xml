@@ -20,6 +20,11 @@
     <php>
         <env name="APP_ENV" value="testing"/>
         <env name="APP_KEY" value="base64:+RPnGROP1mkv/WOOeDFCbUsyml6LBYr+ChYXE4VnF6Q="/>
+        <env name="APP_TIMEZONE" value="Africa/Johannesburg"/>
+        <env name="ADMIN_PASSWORD" value="test-admin-password"/>
+        <env name="FRONTEND_URL" value="http://localhost:5173"/>
+        <env name="SANCTUM_STATEFUL_DOMAINS" value="localhost:5173,localhost,127.0.0.1,127.0.0.1:8000"/>
+        <env name="SESSION_DOMAIN" value="localhost"/>
         <env name="APP_MAINTENANCE_DRIVER" value="file"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="BROADCAST_CONNECTION" value="null"/>
