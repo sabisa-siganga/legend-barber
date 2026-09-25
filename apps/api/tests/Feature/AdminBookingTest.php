@@ -65,6 +65,7 @@ it('lets a valid admin login read bookings for the selected date', function () {
         ->assertJsonPath('bookings.0.startTime', '09:00')
         ->assertJsonPath('bookings.0.endTime', '09:30')
         ->assertJsonPath('bookings.0.serviceName', 'Line-Up & Edge Detail')
+        ->assertJsonPath('bookings.0.price', 120)
         ->assertJsonPath('bookings.0.customerName', 'Earlier Guest')
         ->assertJsonPath('bookings.0.email', 'early@example.com')
         ->assertJsonPath('bookings.0.phone', '+27 82 000 0001')
