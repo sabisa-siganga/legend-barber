@@ -36,6 +36,15 @@ body {
   outline-offset: 3px;
 }
 
+a[href],
+button:not(:disabled),
+summary,
+select,
+label[for],
+[role="button"]:not([aria-disabled="true"]) {
+  cursor: pointer;
+}
+
 :focus-visible[data-emphasis="solid"] {
   outline-color: var(--color-bone);
 }
