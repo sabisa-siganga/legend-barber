@@ -146,9 +146,16 @@ describe("services page", () => {
     expect(
       within(dialog).getByText("This service stays fixed for this booking."),
     ).toBeInTheDocument();
-    expect(within(dialog).queryByRole("combobox")).not.toBeInTheDocument();
-    expect(within(dialog).queryByRole("listbox")).not.toBeInTheDocument();
-    expect(dialog.querySelector("select, input, textarea")).toBeNull();
+    expect(dialog.querySelector("select")).toBeNull();
+    expect(within(dialog).queryByLabelText(/barber/i)).not.toBeInTheDocument();
+    expect(
+      within(dialog).getByRole("button", { name: "Confirm booking" }),
+    ).toBeInTheDocument();
+    expect(
+      within(dialog).getByText(
+        "Time availability will load once a date is selected.",
+      ),
+    ).toBeInTheDocument();
 
     await user.keyboard("{Escape}");
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
@@ -165,7 +172,9 @@ describe("services page", () => {
 
     const nextDialog = screen.getByRole("dialog");
     expect(
-      within(nextDialog).getByRole("heading", { name: "Line-Up & Edge Detail" }),
+      within(nextDialog).getByRole("heading", {
+        name: "Line-Up & Edge Detail",
+      }),
     ).toBeInTheDocument();
     expect(within(nextDialog).getByText("R120")).toBeInTheDocument();
     expect(

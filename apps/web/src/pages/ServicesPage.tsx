@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState, type MouseEvent } from "react";
 import { BookingModal } from "../components/booking/BookingModal";
 import { SiteContainer } from "../components/layout/SiteContainer";
 import { ServiceMenu } from "../components/services/ServiceMenu";
+import { isBookableService } from "../lib/services";
 import { shopDetails } from "../lib/shopDetails";
 import type { BookServiceHandler, Service } from "../types/service";
 
@@ -96,7 +97,7 @@ export function ServicesPage() {
           </div>
         </SiteContainer>
       </section>
-      {selectedService !== null ? (
+      {isBookableService(selectedService) ? (
         <BookingModal service={selectedService} onClose={closeBooking} />
       ) : null}
     </>

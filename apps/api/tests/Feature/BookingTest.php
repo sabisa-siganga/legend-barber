@@ -168,3 +168,27 @@ it('rejects a duplicate slot at the database when two rows share a start time', 
 
     expect(Booking::query()->count())->toBe(1);
 });
+
+it('lets the spa obtain a csrf cookie before posting a booking', function () {
+    $this->withHeader('Origin', 'http://localhost:5173')
+        ->get('/sanctum/csrf-cookie')
+        ->assertNoContent()
+        ->assertHeader('Access-Control-Allow-Origin', 'http://localhost:5173')
+        ->assertHeader('Access-Control-Allow-Credentials', 'true');
+});
+
+it('rejects a stateful spa booking that has no csrf token', function () {
+    $this->withHeader('Origin', 'http://localhost:5173')
+        ->withHeader('Referer', 'http://localhost:5173/')
+        ->postJson('/api/bookings', legendBookingPayload())
+        ->assertStatus(419);
+});
+
+it('creates a booking from the spa after the csrf cookie is primed', function () {
+    legendPrepareSpa();
+
+    $this->postJson('/api/bookings', legendBookingPayload())
+        ->assertCreated()
+        ->assertJsonPath('service.id', 'signature-cut')
+        ->assertJsonPath('startTime', '10:30');
+});

@@ -8,6 +8,23 @@ import type { Service } from "../types/service";
 
 export const formatServicePrice = (price: number): string => `R${price}`;
 
+export const isBookableService = (
+  service: Service | null,
+): service is Service => {
+  if (service === null) {
+    return false;
+  }
+
+  return (
+    service.id.trim() !== "" &&
+    service.name.trim() !== "" &&
+    service.description.trim() !== "" &&
+    service.image.trim() !== "" &&
+    service.alt.trim() !== "" &&
+    Number.isFinite(service.price)
+  );
+};
+
 export const services: readonly Service[] = [
   {
     id: "signature-cut",
@@ -31,8 +48,7 @@ export const services: readonly Service[] = [
     id: "cut-beard-detail",
     name: "Cut + Beard Detail",
     price: 320,
-    description:
-      "A complete reset with a tailored cut and refined beard work.",
+    description: "A complete reset with a tailored cut and refined beard work.",
     image: cutAndBeardImage,
     alt: "Barber detailing a beard along the jawline",
   },
